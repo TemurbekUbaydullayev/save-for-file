@@ -10,6 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//----> Cors Policy
+builder.Services.AddCors(cors =>
+{
+    cors.AddPolicy("AllowAll", accesses =>
+        accesses.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 builder.Services.AddTransient<IFileService, FileService>();
 
 var app = builder.Build();
@@ -22,6 +29,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
